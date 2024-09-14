@@ -5,10 +5,12 @@ import { Logger } from 'winston';
 import { config } from '@notifications/config';
 import { winstonLogger } from '@notifications/logger';
 import { Application } from 'express';
+import { healthRoutes } from '@notifications/routes';
 const log: Logger = winstonLogger(`${config.ELASTIC_SEARCH_URL}`, 'notificationServer', 'debug');
 const SERVER_PORT = 4001;
 
 export function start(app: Application): void {
+  app.use('', healthRoutes());
   startServer(app);
   startQueues();
   startElasticSearch();
