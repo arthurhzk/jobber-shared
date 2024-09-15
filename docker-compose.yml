@@ -1,0 +1,30 @@
+version: '3.1'
+
+services:
+  db:
+    image: mysql:latest
+    container_name: mysql-compose-container
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: mydatabase
+      MYSQL_USER: myuser
+      MYSQL_PASSWORD: mypassword
+    ports:
+      - '3306:3306'
+    volumes:
+      - db_data:/var/lib/mysql
+  rabbitmq:
+    container_name: rabbitmq_container
+    image: rabbitmq:3.13-rc-management-alpine
+    restart: always
+    environment:
+      - RABBITMQ_DEFAULT_USER=jobber
+      - RABBITMQ_DEFAULT_PASS=jobberpass
+    ports:
+      # AMQP protocol port
+      - '5672:5672'
+      # Management UI
+      - '15672:15672'
+
+volumes:
+  db_data:
